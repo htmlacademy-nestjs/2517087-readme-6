@@ -1,0 +1,9 @@
+{
+  "name": "user-info",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user/user-info/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project user-info --web",
+  "targets": {}
+}
