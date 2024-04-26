@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import {ConflictException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {ConfigService, ConfigType} from '@nestjs/config';
 
 import {UserInfoEntity, UserInfoRepository} from '@project/user-info';
 import {CreateUserDto} from "../dto/create-user.dto";
@@ -7,12 +8,20 @@ import {UserRole} from "@project/shared/core";
 
 import {AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG} from "./authentication.constant";
 import {LoginUserDto} from "../dto/login-user.dto";
+import {dbConfig} from "@project/user-config";
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly userInfoRepository: UserInfoRepository
-  ) {}
+    private readonly userInfoRepository: UserInfoRepository,
+
+    private readonly configService: ConfigService, // для получения настроек модуля конфигурации
+    @Inject(dbConfig.KEY)
+    private readonly databaseConfig: ConfigType<typeof dbConfig>, // для получения настроек модуля конфигурации
+  ) {
+    // console.log(databaseConfig.user);
+    // console.log(configService.get<string>('db.host'));
+  }
 
   public async register(dto: CreateUserDto): Promise<UserInfoEntity> {
     const {email, firstname, lastname, password, dateBirth} = dto;
