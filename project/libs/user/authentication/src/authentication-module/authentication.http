@@ -27,3 +27,8 @@ Content-Type: application/json
 }
 
 ###
+
+# Demo route for Pipe
+GET http://localhost:3000/api/auth/demo/1 HTTP/1.1.
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzE0NjE4MjI1LCJleHAiOjE3MTQ2MTg1MjV9.ZjemtTz7g6MdPytcwkTjqxr8TGIFOYaKWnTvX6grfvo
+###

@@ -1,27 +1,34 @@
 import dayjs from "dayjs";
-import {ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
-import {ConfigService, ConfigType} from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException
+} from '@nestjs/common';
 
 import {UserInfoEntity, UserInfoRepository} from '@project/user-info';
 import {CreateUserDto} from "../dto/create-user.dto";
-import {UserRole} from "@project/shared/core";
+import { Token, TokenPayload, User, UserRole } from '@project/shared/core';
 
-import {AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG} from "./authentication.constant";
 import {LoginUserDto} from "../dto/login-user.dto";
-import {dbConfig} from "@project/user-config";
+import {
+  AUTH_USER_EXISTS,
+  AUTH_USER_NOT_FOUND,
+  AUTH_USER_PASSWORD_WRONG
+} from './authentication.constant';
 
 @Injectable()
 export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
+
   constructor(
     private readonly userInfoRepository: UserInfoRepository,
-
-    private readonly configService: ConfigService, // для получения настроек модуля конфигурации
-    @Inject(dbConfig.KEY)
-    private readonly databaseConfig: ConfigType<typeof dbConfig>, // для получения настроек модуля конфигурации
-  ) {
-    // console.log(databaseConfig.user);
-    // console.log(configService.get<string>('db.host'));
-  }
+    private readonly jwtService: JwtService,
+  ) { }
 
   public async register(dto: CreateUserDto): Promise<UserInfoEntity> {
     const {email, firstname, lastname, password, dateBirth} = dto;
@@ -71,5 +78,23 @@ export class AuthenticationService {
     }
 
     return user;
+  }
+
+  public async createUserToken(user: User): Promise<Token> {
+    const payload: TokenPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+      lastname: user.lastname,
+      firstname: user.firstname,
+    };
+
+    try {
+      const accessToken = await this.jwtService.signAsync(payload);
+      return { accessToken };
+    } catch (error) {
+      this.logger.error('[Token generation error]: ' + error.message);
+      throw new HttpException('Ошибка при создании токена.', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
