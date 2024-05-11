@@ -30,7 +30,8 @@
       "@project/shared/core": ["libs/shared/core/src/index.ts"],
       "@project/shared/helpers": ["libs/shared/helpers/src/index.ts"],
       "@project/user-config": ["libs/user/config/src/index.ts"],
-      "@project/user-info": ["libs/user/user-info/src/index.ts"]
+      "@project/user-info": ["libs/user/user-info/src/index.ts"],
+      "@project/user-notify": ["libs/user/notify/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
