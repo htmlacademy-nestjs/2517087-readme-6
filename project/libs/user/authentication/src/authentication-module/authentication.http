@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user20@notfound.local",
+  "email": "user30@notfound.local",
   "dateBirth": "2012-02-22",
   "firstname": "Keks",
   "lastname": "Smith",
@@ -23,7 +23,7 @@ POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@notfound.local",
+  "email": "user30@notfound.local",
   "password": "123456"
 }
 
@@ -31,6 +31,6 @@ Content-Type: application/json
 
 # Get new JWT pair
 POST http://localhost:3000/api/auth/refresh HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzE1NjAxNzk1LCJleHAiOjE3MTgxOTM3OTV9.DMOUBsKuU-3pwDqTi3--WpZfMwiHixwnMvr19Y3TGrA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjQyNzhlNzZkNTY5NTJhYTkxYmZjM2YiLCJlbWFpbCI6InVzZXIzMEBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ1c2VyIiwibGFzdG5hbWUiOiJTbWl0aCIsImZpcnN0bmFtZSI6Iktla3MiLCJ0b2tlbklkIjoiYTMwYWM4MzQtNTA1MC00NzE3LTlmMTgtY2Y5MTI1Y2ViMWMyIiwiaWF0IjoxNzE1NjMyNjcwLCJleHAiOjE3MTgyMjQ2NzB9.p76rvxhzb5YFqy-0gwXG5Yke_UfneoxwRRnQ66NsWv0
 
 ###
