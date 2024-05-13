@@ -14,3 +14,16 @@ POST http://localhost:7000/api/users/refresh HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJiZjMyMWFlNWYzMGMxYTIwMzc4ZDMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwidG9rZW5JZCI6IjEzYzllOGRmLTY0Y2ItNDA4Yi1hNGYxLWU1NzQ3NWJiZDg5YiIsImlhdCI6MTcxNTY0MTIyNywiZXhwIjoxNzE4MjMzMjI3fQ.dHRECN1CbdEhdH0Y60-ylazmVLL3qcdoXfb6qp4HaH8
 
 ###
+
+# Create a new post
+POST http://localhost:7000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDQwMzJmYmU0Y2FlYjg2OGM2ZWVjMzYiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNjgzMTI0MTA5LCJleHAiOjE2ODMxMjQ3MDl9.oHiIvy7hGEuDaI7e7Jspbcd68_5CMKNe2qzkMV6bDe8
+Content-Type: application/json
+
+{
+  "title": "Проверка!!",
+  "description": "Текст анонса",
+  "content": "Расширенный текст публикации",
+  "categories": [""]
+}
+###
