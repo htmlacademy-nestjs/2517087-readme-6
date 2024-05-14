@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { UserInfoModule } from "@project/user-info";
 import { getJwtOptions } from '@project/user-config';
+import { NotifyModule } from '@project/user-notify';
 
 import { JwtAccessStrategy } from '../strategies/jwt-access.strategy';
 import { AuthenticationController } from './authentication.controller';
@@ -15,7 +16,8 @@ import { AuthenticationService } from './authentication.service';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: getJwtOptions,
-    })
+    }),
+    NotifyModule
   ],
   controllers: [AuthenticationController],
   providers: [
