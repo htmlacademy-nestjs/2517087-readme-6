@@ -17,13 +17,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJiZjMyM
 
 # Create a new post
 POST http://localhost:7000/api/blog HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDQwMzJmYmU0Y2FlYjg2OGM2ZWVjMzYiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNjgzMTI0MTA5LCJleHAiOjE2ODMxMjQ3MDl9.oHiIvy7hGEuDaI7e7Jspbcd68_5CMKNe2qzkMV6bDe8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJiZjMyMWFlNWYzMGMxYTIwMzc4ZDMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzE1NjUxMzMyLCJleHAiOjE3MTU2NTE2MzJ9.CKWEWK9cgSg3Bma-M7GByddij-4RDuHY3-JvyQloMYs
 Content-Type: application/json
 
 {
-  "title": "Проверка!!",
-  "description": "Текст анонса",
+  "title": "Проверка еще!!",
+  "description": "Текст анонса #25",
   "content": "Расширенный текст публикации",
-  "categories": [""]
+  "categories": ["39614113-7ad5-45b6-8093-06455437e1e2"]
 }
 ###
