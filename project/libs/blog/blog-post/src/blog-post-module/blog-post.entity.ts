@@ -1,6 +1,7 @@
 import { BlogCategoryEntity, BlogCategoryFactory } from '@project/blog-category';
 import { Entity, Post, StorableEntity } from '@project/shared/core';
 import { BlogCommentEntity, BlogCommentFactory } from '@project/blog-comment';
+import crypto from "crypto"
 
 export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public title: string;
@@ -46,7 +47,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
 
   public toPOJO(): Post {
     return {
-      id: this.id,
+      id: (this.id === '') ? crypto.randomUUID() : this.id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       description: this.description,

@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user20@notfound.local",
+  "email": "user30@notfound.local",
   "dateBirth": "2012-02-22",
   "firstname": "Keks",
   "lastname": "Smith",
@@ -14,6 +14,7 @@ Content-Type: application/json
 
 # Get user by ID
 GET http://localhost:3000/api/auth/7aef6925-4fe5-4057-b5cc-cc7cf214df05 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzA0NjE5MTk5LCJleHAiOjE3MDQ2MTk0OTl9.skXytHVZvtETNqSSqUjsVIq4ogGs3fD_7mgn1qpRLPo
 
 ###
 
@@ -22,13 +23,20 @@ POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@notfound.local",
+  "email": "user30@notfound.local",
   "password": "123456"
 }
 
 ###
 
-# Demo route for Pipe
-GET http://localhost:3000/api/auth/demo/1 HTTP/1.1.
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzE0NjE4MjI1LCJleHAiOjE3MTQ2MTg1MjV9.ZjemtTz7g6MdPytcwkTjqxr8TGIFOYaKWnTvX6grfvo
+# Get new JWT pair
+POST http://localhost:3000/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjQyNzhlNzZkNTY5NTJhYTkxYmZjM2YiLCJlbWFpbCI6InVzZXIzMEBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ1c2VyIiwibGFzdG5hbWUiOiJTbWl0aCIsImZpcnN0bmFtZSI6Iktla3MiLCJ0b2tlbklkIjoiYTMwYWM4MzQtNTA1MC00NzE3LTlmMTgtY2Y5MTI1Y2ViMWMyIiwiaWF0IjoxNzE1NjMyNjcwLCJleHAiOjE3MTgyMjQ2NzB9.p76rvxhzb5YFqy-0gwXG5Yke_UfneoxwRRnQ66NsWv0
+
+###
+
+# Check user token
+POST http://localhost:3000/api/auth/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjQyNzhlNzZkNTY5NTJhYTkxYmZjM2YiLCJlbWFpbCI6InVzZXIzMEBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ1c2VyIiwibGFzdG5hbWUiOiJTbWl0aCIsImZpcnN0bmFtZSI6Iktla3MiLCJpYXQiOjE3MTU2NDMzMDQsImV4cCI6MTcxNTY0MzYwNH0.OL4XRNcBhPdybCesW4xu4kE6WUzXUrveV0HZknCKgoI
+
 ###
