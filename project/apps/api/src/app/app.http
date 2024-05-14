@@ -17,12 +17,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJiZjMyM
 
 # Create a new post
 POST http://localhost:7000/api/blog HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJiZjMyMWFlNWYzMGMxYTIwMzc4ZDMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzE1NjUxMzMyLCJleHAiOjE3MTU2NTE2MzJ9.CKWEWK9cgSg3Bma-M7GByddij-4RDuHY3-JvyQloMYs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJiZjMyMWFlNWYzMGMxYTIwMzc4ZDMiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJyb2xlIjoidXNlciIsImxhc3RuYW1lIjoiU21pdGgiLCJmaXJzdG5hbWUiOiJLZWtzIiwiaWF0IjoxNzE1NjUyMTk3LCJleHAiOjE3MTU2NTI0OTd9.j-JqFsu4BpZ7ah73OrGvqBV_kvdzPMgsxsDCzILyGIk
 Content-Type: application/json
 
 {
-  "title": "Проверка еще!!",
-  "description": "Текст анонса #25",
+  "title": "Проверка #3",
+  "description": "Текст анонса #2",
   "content": "Расширенный текст публикации",
   "categories": ["39614113-7ad5-45b6-8093-06455437e1e2"]
 }
