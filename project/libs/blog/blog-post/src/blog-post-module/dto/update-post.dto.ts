@@ -1,24 +1,54 @@
-import { ArrayNotEmpty, IsArray, IsNotEmpty,IsOptional, IsString, IsUUID } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {PostStatus, PostType} from "@prisma/client";
 
 export class UpdatePostDto {
+  @ApiProperty({
+    description: 'Guest',
+    example: 'post title'
+  })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
   public title?: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Post types enum',
+    enum: PostType,
+    example: PostType.Text
+  })
   @IsOptional()
-  public description?: string;
-
-  @IsString()
+  @IsEnum(PostType)
   @IsNotEmpty()
-  @IsOptional()
-  public content?: string;
+  public type?: PostType;
 
-  @IsUUID('all', { each: true })
+  @ApiProperty({
+    description: 'Post statuses enum',
+    enum: PostStatus,
+    example: PostStatus.Published
+  })
+  @IsOptional()
+  @IsEnum(PostStatus)
+  @IsNotEmpty()
+  public status?: PostStatus;
+
+  @ApiProperty({
+    description: 'Post author ID',
+    example: '661022d3615ce5c3c722054f'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsNotEmpty()
+  public authorId: string;
+
+  @ApiProperty({
+    description: 'Post tags list',
+    isArray: true,
+    example: ['new', 'tag', 'something']
+  })
+  @IsOptional()
+  @IsString({ each: true })
   @IsArray()
-  @ArrayNotEmpty()
-  @IsOptional()
-  public categories?: string[];
+  public tags?: string[];
 }
+

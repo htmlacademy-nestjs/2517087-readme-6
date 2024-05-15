@@ -4,7 +4,7 @@ export const AuthenticationResponseMessage = {
   UserFound: 'User found',
   UserNotFound: 'User not found',
   UserExist: 'User with the email already exists',
-  UserCreated: 'The new user has been successfully created.',
+  UserCreated: 'New user created',
   UserPasswordWrong: 'User password wrong',
   JwtAuthSuccess: 'Successful user auth with jwt',
   JwtAuthError: 'Error user auth with jwt',
@@ -12,7 +12,7 @@ export const AuthenticationResponseMessage = {
   TokenCreatedError: 'Error creating user token',
   BadMongoIdError: 'Bad entity mongo id',
   GettingUsersById: 'Getting list of users by id',
-  GettingPublishersList: 'Getting list publishers current user subscribed to',
+  GettingPublishersList: 'Getting list publishers',
 } as const;
 
 export const ParamDescription = {

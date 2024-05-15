@@ -4,8 +4,7 @@ import { PhotoPost } from "./photo-post.interface";
 import { QuotePost } from "./quote-post.interface";
 import { TextPost } from "./text-post.interface";
 import { VideoPost } from "./video-post.interface";
-import { PostDetailType, PostStatus, PostType } from "./post.enum";
-// import { PostDetailType, PostType, PostStatus } from '@prisma/client';
+import { PostDetailType, PostType, PostStatus } from '@prisma/client';
 
 export interface PostDetailItem {
   id: string;

@@ -1,31 +1,55 @@
-import {
-  ArrayNotEmpty,
-  IsArray,
-  IsMongoId,
-  IsNotEmpty,
-  IsString,
-  IsUUID
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { ArrayMaxSize, IsArray, IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { MAX_POST_TAGS, TAG_VALIDATE_REGEXP } from '../blog-post.constants';
+import { Transform } from 'class-transformer';
+import {PostStatus, PostType} from "@prisma/client";
 
 export class CreatePostDto {
+  @ApiProperty({
+    description: 'Guest',
+    example: 'post title'
+  })
   @IsString()
   @IsNotEmpty()
   public title: string;
 
-  @IsString()
+  @ApiProperty({
+    description: 'Post types enum',
+    enum: PostType,
+    example: PostType.Text
+  })
+  @IsEnum(PostType)
   @IsNotEmpty()
-  public description: string;
+  public type: PostType;
 
-  @IsString()
+  @ApiProperty({
+    description: 'Post statuses enum',
+    enum: PostStatus,
+    example: PostStatus.Published
+  })
+  @IsEnum(PostStatus)
   @IsNotEmpty()
-  public content: string;
+  public status: PostStatus;
 
+  @ApiProperty({
+    description: 'Post author ID',
+    example: '661022d3615ce5c3c722054f'
+  })
   @IsString()
   @IsMongoId()
-  public userId: string;
+  @IsNotEmpty()
+  public authorId: string;
 
-  @IsUUID('all', { each: true })
+  @ApiProperty({
+    description: 'Post tags list',
+    isArray: true,
+    example: ['new', 'tag']
+  })
+  @IsOptional()
+  @IsString({ each: true })
+  @Transform(({ value }) => [...new Set(value.map((tag: string) => tag.toLowerCase()))])
+  @ArrayMaxSize(MAX_POST_TAGS)
+  @Matches(TAG_VALIDATE_REGEXP, { each: true })
   @IsArray()
-  @ArrayNotEmpty()
-  public categories: string[];
+  public tags?: string[];
 }
