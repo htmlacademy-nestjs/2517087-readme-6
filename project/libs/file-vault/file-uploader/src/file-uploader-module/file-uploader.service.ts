@@ -1,5 +1,5 @@
 import 'multer';
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ensureDir } from 'fs-extra';
 import { extension } from 'mime-types';
@@ -13,6 +13,8 @@ import { StoredFile } from '@project/shared/core';
 import { FileUploaderRepository } from './file-uploader.repository';
 import { FileUploaderEntity } from './file-uploader.entity';
 import { FileUploaderFactory } from './file-uploader.factory';
+
+const SAVE_FILE_ERROR_MESSAGE = "Sorry error save file";
 
 @Injectable()
 export class FileUploaderService {
@@ -42,7 +44,7 @@ export class FileUploaderService {
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
       const subDirectory = this.getSubUploadDirectoryPath();
-      const fileExtension = extension(file.mimetype);
+      const fileExtension = extension(file.mimetype) || '';
       const filename = `${randomUUID()}.${fileExtension}`;
 
       const path = this.getDestinationFilePath(filename);
@@ -58,7 +60,7 @@ export class FileUploaderService {
       };
     } catch (error) {
       this.logger.error(`Error while saving file: ${error.message}`);
-      throw new Error(`Can't save file`);
+      throw new UnprocessableEntityException(SAVE_FILE_ERROR_MESSAGE);
     }
   }
 
@@ -87,5 +89,9 @@ export class FileUploaderService {
     }
 
     return existFile;
+  }
+
+  public async getFilesById(filesIds: string[]): Promise<FileUploaderEntity[]> {
+    return await this.fileRepository.getFilesById(filesIds);
   }
 }

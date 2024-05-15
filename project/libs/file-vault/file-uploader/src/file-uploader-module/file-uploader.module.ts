@@ -16,7 +16,7 @@ const SERVE_ROOT = '/static';
     ServeStaticModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const rootPath = configService.get<string>('application.uploadDirectory');
+        const rootPath = configService.get('file-vault.uploadDirectory');
         return [{
           rootPath,
           serveRoot: SERVE_ROOT,
