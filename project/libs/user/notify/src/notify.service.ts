@@ -5,8 +5,6 @@ import { ConfigType } from '@nestjs/config';
 import { RabbitRouting } from '@project/shared/core';
 import { rabbitConfig } from '@project/user-config';
 
-import { CreateSubscriberDto } from './dto/create-subscriber.dto';
-
 @Injectable()
 export class NotifyService {
   constructor(
@@ -15,8 +13,8 @@ export class NotifyService {
     private readonly rabbiOptions: ConfigType<typeof rabbitConfig>,
   ) {}
 
-  public async registerSubscriber(dto: CreateSubscriberDto) {
-    return this.rabbitClient.publish<CreateSubscriberDto>(
+  public async registerSubscriber(dto: any) {
+    return this.rabbitClient.publish<any>(
       this.rabbiOptions.exchange,
       RabbitRouting.AddSubscriber,
       { ...dto }
