@@ -2,21 +2,22 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Req, U
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import {AuthenticationResponseMessage, ChangeUserPasswordDto, ParamDescription} from '@project/authentication';
+import { AuthenticationResponseMessage, ParamDescription } from './authentication.constant';
 import { LoggedUserRdo } from '../rdo/logged-user.rdo';
 import { UserRdo } from '../rdo/user.rdo';
 import { MongoIdValidationPipe } from '@project/pipes';
 import { fillDto } from '@project/shared/helpers';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
-import { RequestWithUser } from '@project/authentication';
+import { RequestWithUser } from './request-with-user.interface';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
-import { JwtAuthGuard } from '@project/authentication';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RequestWithTokenPayload } from './request-with-token-payload.interface';
-import { CreateSubscribeDto } from '@project/authentication';
+import IsGuestGuard from '../guards/is-guest.guard';
+import { ChangeUserPasswordDto } from '../dto/change-user-password.dto';
+import { CreateSubscribeDto } from '../dto/create-subscribe.dto';
 import { UserPublicInfoRdo } from '../rdo/user-public-info.rdo';
-import {TokenRdo} from "../rdo/token.rdo";
+import { TokenRdo } from '../rdo/token.rdo';
 import { UserPayloadRdo } from '../rdo/user-payload.rdo';
-import IsGuestGuard from "../guards/is-guest.guard";
 
 @ApiTags('authentication')
 @Controller('auth')

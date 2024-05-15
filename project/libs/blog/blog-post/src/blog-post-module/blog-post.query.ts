@@ -7,7 +7,7 @@ import {
   DEFAULT_POST_COUNT_LIMIT,
   DEFAULT_SORT_DIRECTION,
   DEFAULT_PAGE_COUNT
-} from './blog-post.constant';
+} from './blog-post.constants';
 import {PostType} from "@prisma/client";
 
 
