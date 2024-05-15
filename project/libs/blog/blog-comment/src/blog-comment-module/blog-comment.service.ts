@@ -1,16 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { BlogCommentRepository } from './blog-comment.repository';
-import { BlogCommentEntity } from './blog-comment.entity';
+import { BlogCommentRepository } from "@project/blog-comment";
+import { BlogCommentFactory } from "@project/blog-comment";
+import { CreateCommentDto } from "@project/blog-comment";
+import { BlogCommentQuery } from "./blog-comment.query";
+import { BlogCommentResponseMessage } from "./blog-comment.constant";
 
 @Injectable()
 export class BlogCommentService {
   constructor(
+    private readonly blogCommentFactory: BlogCommentFactory,
     private readonly blogCommentRepository: BlogCommentRepository,
   ) {}
 
-  public async getComments(postId: string): Promise<BlogCommentEntity[]> {
-    return this.blogCommentRepository.findByPostId(postId);
+  getById(commentId: string) {
+    return this.blogCommentRepository.findById(commentId);
   }
 
+  async create(postId: string, dto: CreateCommentDto) {
+    try {
+      const newComment = this.blogCommentFactory.createFromDto(dto, postId);
+      await this.blogCommentRepository.save(newComment);
+
+      return newComment;
+    } catch (err) {
+      throw new NotFoundException(`Post with ID ${postId} not found`);
+    }
+  }
+
+  async delete(commentId: string, authorId: string) {
+    const existsComment = await this.blogCommentRepository.findById(commentId);
+    if (!existsComment) {
+      throw new NotFoundException(`Comment with ID ${commentId} not found`);
+    }
+
+    if (existsComment.authorId !== authorId) {
+      throw new ForbiddenException(BlogCommentResponseMessage.UserNotAuthor);
+    }
+
+    return await this.blogCommentRepository.deleteById(commentId);
+  }
+
+  async getCommentsByPostId(postId: string, query: BlogCommentQuery) {
+    return await this.blogCommentRepository.findByPostId(postId, query);
+  }
 }

@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../../node_modules/.prisma/client"
+  output   = "../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -14,49 +14,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PostType {
+  Video
+  Text
+  Quote
+  Photo
+  Link
+}
+
+enum PostStatus {
+  Published
+  Draft
+}
+
 model Post {
-  id          String   @id @default(uuid()) @map("id")
-  categories  Category[]
-  title       String
-  description String
-  content     String
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  userId      String @map("user_id")
-  comments    Comment[]
-  favorite    Favorite[]
+  id               String         @id @default(uuid()) @db.VarChar(100)
+  originalId       String?        @map("original_id")
+  type             PostType
+  status           PostStatus
+  authorId         String         @map("author_id") @db.VarChar(100)
+  originalAuthorId String?        @map("original_author_id") @db.VarChar(100)
+  title            String         @db.VarChar(255)
+  tags             String[]       @db.VarChar(10)
+  dateCreate       DateTime       @default(now()) @map("date_create")
+  dateUpdate       DateTime       @updatedAt @map("date_update")
+  isReposted       Boolean        @default(false) @map("is_reposted")
+  likes            String[]       @db.VarChar(100)
+  likesCount       Int            @default(0) @map("likes_count")
+  comments         Comment[]
+  postsDetails     PostsDetails[]
+
   @@index([title])
   @@map("posts")
 }
 
-model Category {
-  id        String  @id @default(uuid())
-  title     String
-  posts     Post[]
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  @@index([title])
-  @@map("categories")
-}
-
 model Comment {
-  id          String    @id @default(uuid())
-  message     String
-  userId      String    @map("user_id")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId      String    @map("post_id")
-  @@index([postId])
+  id         String   @id @default(uuid()) @db.VarChar(100)
+  postId     String   @map("post_id") @db.VarChar(100)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId   String   @map("author_id") @db.VarChar(100)
+  message    String
+  dateCreate DateTime @default(now()) @map("date_create")
+
   @@map("comments")
 }
 
-model Favorite {
-  id          String    @id @default(uuid())
-  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId      String    @map("post_id")
-  userId      String    @map("user_id")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  @@map("favorites")
+enum PostDetailType {
+  Video
+  Photo
+  Link
+  Description
+  QuoteAuthor
+  Announcement
+  Text
+}
+
+model PostsDetails {
+  id     String         @id @default(uuid()) @db.VarChar(100)
+  postId String         @map("post_id") @db.VarChar(100)
+  type   PostDetailType
+  value  String
+  post   Post           @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("posts_details")
 }

@@ -1,36 +1,25 @@
-import { registerAs } from '@nestjs/config';
-import * as Joi from 'joi';
-
-const DEFAULT_PORT = 3000;
-const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
-
-type Environment = typeof ENVIRONMENTS[number];
+import { plainToClass } from "class-transformer";
+import { DEFAULT_PORT, EnvironmentType } from "./app/app.const";
+import AppConfig from "./app/app.env";
+import { ConfigType, registerAs } from "@nestjs/config";
+import { RADIX_DECIMAIL } from "@project/shared/core";
 
 export interface ApplicationConfig {
-  environment: string;
+  environment: EnvironmentType;
   port: number;
 }
 
-const validationSchema = Joi.object({
-  environment: Joi.string().valid(...ENVIRONMENTS).required(),
-  port: Joi.number().port().default(DEFAULT_PORT),
-});
+async function getConfig(): Promise<ApplicationConfig> {
+  const config = plainToClass(AppConfig, {
+    environment: process.env.NODE_ENV,
+    port: process.env.MONGO_PORT ? parseInt(process.env.PORT, RADIX_DECIMAIL) : DEFAULT_PORT,
+  });
 
-function validateConfig(config: ApplicationConfig): void {
-  const { error } = validationSchema.validate(config, { abortEarly: true });
-  if (error) {
-    throw new Error(`[Application Config Validation Error]: ${error.message}`);
-  }
-}
+  await config.validate();
 
-function getConfig(): ApplicationConfig {
-  const config: ApplicationConfig = {
-    environment: process.env.NODE_ENV as Environment,
-    port: parseInt(process.env.PORT || `${DEFAULT_PORT}`, 10),
-  };
-
-  validateConfig(config);
   return config;
 }
 
-export default registerAs('application', getConfig);
+export default registerAs('account-app', async (): Promise<ConfigType<typeof getConfig>> => {
+  return getConfig();
+});

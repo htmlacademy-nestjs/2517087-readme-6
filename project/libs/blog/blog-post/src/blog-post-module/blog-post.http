@@ -1,56 +1,86 @@
-# Get all posts
-GET http://localhost:5000/api/posts HTTP/1.1
+# Get a list of posts filtered using query parameters
+GET http://localhost:5000/api/posts?limit=3&page=1 HTTP/1.1
 
 ###
 
-# Get posts with filter
+# Receive the user's posts in accordance with the point of reference - My feed
+POST http://localhost:5000/api/posts/content-ribbon?limit=3&page=1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDI0M2Y5ZjhiYjAwNjgxMDdkMWI3YyIsImVtYWlsIjoidGVzdC11c2VyMkBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU2MzEwOTAsImV4cCI6MTcxNTcxNzQ5MH0.uA0y3Zi-ucWL284bEY1-Q8ADjneX7O_sAmejHsmoHDk
+Content-Type: application/json
 
-GET http://localhost:5000/api/posts?limit=2&sortDirection=desc&categories[]=39614113-7ad5-45b6-8093-06455437e1e2&page=1 HTTP/1.1
+["664243f9f8bb0068107d1b7c","6641e7c30e1dd47aa62202d9","6641e7cd0e1dd47aa62202da"]
 
 ###
 
-# Get post by id
-GET http://localhost:5000/api/posts/0eb6c19a-962c-4fc7-9106-7d46b09aaab8z HTTP/1.1
+# Get a blog post by id
+GET http://localhost:5000/api/posts/bc483014-9e00-47ab-8abd-0560878f1bd3 HTTP/1.1
+
+###
+
+# Receiving a list of posts published after a certain date for organizing a mailing list
+GET http://localhost:5000/api/posts/find-after-date?date=2024-05-10T00:00:00.000Z HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
+
+###
+
+# Get a list of posts filtered by title
+GET http://localhost:5000/api/posts/search?title=new HTTP/1.1
+
+###
+
+# Get a list of posts filtered by a particular user
+GET http://localhost:5000/api/posts/user/663b6d0bf48517d912b1b267 HTTP/1.1
+
+###
+
+# Get a list of user posts in draft status
+GET http://localhost:5000/api/posts/draft HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
+
+###
+
+# Delete an existed post
+DELETE http://localhost:5000/api/posts/4d30b6b9-022d-428c-80b1-a41de5dce5a2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
+
+###
+
+# Reposting someone else's post
+POST http://localhost:5000/api/posts/repost/5176640d-e53d-4635-8c33-01ee8a4fd46a HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
+
+###
+
+# Adds a like/removes a like to someone else's post
+PATCH  http://localhost:5000/api/posts/like/a4263130-9163-4e12-98ef-cbec6aa5bb53 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
 
 ###
 
 # Create a new post
 POST http://localhost:5000/api/posts HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
 Content-Type: application/json
 
 {
-  "title": "Hello world 31337!",
-  "description": "Текст анонса",
-  "content": "Расширенный текст публикации",
-  "userId": "658ede7600f80970fcf9e111",
-  "categories": ["39614113-7ad5-45b6-8093-06455437e1e2"]
+  "title": "Test Title 55",
+  "type": "Video",
+  "status": "Draft",
+  "tags": ["testtag"],
+  "link": "https://www.youtube.com/test"
 }
 
 ###
 
-# Delete the post by id
-DELETE http://localhost:5000/api/posts/0549e0e7-ad8c-43b8-aa35-507ba547d743 HTTP/1.1
-
-###
-
-# Update post by id
-PATCH http://localhost:5000/api/posts/0eb6c19a-962c-4fc7-9106-7d46b09aaab8 HTTP/1.1
+# Update an existed post
+PATCH http://localhost:5000/api/posts/dd783135-8981-4724-bc1c-4bdfe95029ec HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiNTBjMzNmODExMTE3MWRjZWI1NyIsImVtYWlsIjoidGVzdC11c2VyNUBtYWlsLnJ1IiwibmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE3MTU1MTg0MzMsImV4cCI6MTcxNTYwNDgzM30.SR8-Tat6isf7m1h890c0udIMGxcfJ6kkspZLmfq0CdM
 Content-Type: application/json
 
 {
-  "title": "Как дела",
-  "description": "И вновь привет"
+  "title": "Up Test Title",
+  "type": "Video",
+  "status": "Draft",
+  "tags": ["testtag"],
+  "link": "https://www.youtube.com/test"
 }
-
-###
-
-# Create a new comment for post
-POST http://localhost:5000/api/posts/ab04593b-da99-4fe3-8b4b-e06d82e2efdd/comments HTTP/1.1
-Content-Type: application/json
-
-{
-  "message": "This is text",
-  "userId": "65990102bb965b742900ba59"
-}
-
-###

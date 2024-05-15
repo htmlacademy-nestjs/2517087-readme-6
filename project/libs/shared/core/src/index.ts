@@ -1,12 +1,14 @@
 export { Entity } from './lib/base/entity';
-
-export { UserRole } from './lib/types/user-role.enum';
 export { User } from './lib/types/user.interface';
 export { AuthUser } from './lib/types/auth-user.interface';
-export { Category } from './lib/types/category.interface';
-export { Post } from './lib/types/post.interface';
+export { Post, CommonPostType, PostDetailItem } from './lib/types/post.interface';
+export { PostType, PostDetailType, PostStatus } from './lib/types/post.enum';
 export { Comment } from './lib/types/comment.interface';
-
+export { QuotePost } from './lib/types/quote-post.interface';
+export { PhotoPost } from './lib/types/photo-post.interface';
+export { VideoPost } from './lib/types/video-post.interface';
+export { TextPost } from './lib/types/text-post.interface';
+export { LinkPost } from './lib/types/link-post.interface';
 export { StorableEntity } from './lib/interfaces/storable-entity.interface';
 export { EntityFactory } from './lib/interfaces/entity-factory.interface';
 export { SortDirection } from './lib/interfaces/sort-direction.interface';
@@ -16,6 +18,8 @@ export { TokenPayload } from './lib/interfaces/token-payload.interface';
 export { File } from './lib/types/file.interface';
 export { StoredFile } from './lib/types/stored-file.interface';
 export { Subscriber } from './lib/types/subscriber.interface';
-export { RabbitRouting } from './lib/types/rabbit-routing.enum';
-export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
+export { JwtToken } from './lib/interfaces/jwt-token.interface';
+export { RabbitRouting } from './lib/types/rabbit-routing.enum';
+export { Newsletter } from './lib/types/newsletter.interface';
+export * from './lib/app.constants';

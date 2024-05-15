@@ -1,26 +1,10 @@
-import { Injectable } from '@nestjs/common';
-
-import { EntityFactory, Post } from '@project/shared/core';
-
-import { BlogPostEntity } from './blog-post.entity';
-import { CreatePostDto } from './dto/create-post.dto';
-import { BlogCategoryEntity } from '@project/blog-category';
+import { Injectable } from "@nestjs/common";
+import { CommonPostType, EntityFactory } from "@project/shared/core";
+import { BlogPostEntity } from "./blog-post.entity";
 
 @Injectable()
 export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
-  public create(entityPlainData: Post): BlogPostEntity {
+  public create(entityPlainData: CommonPostType): BlogPostEntity {
     return new BlogPostEntity(entityPlainData);
-  }
-
-  public static createFromCreatePostDto(dto: CreatePostDto, categories: BlogCategoryEntity[]): BlogPostEntity {
-    const entity = new BlogPostEntity();
-    entity.categories = categories;
-    entity.title = dto.title;
-    entity.description = dto.description;
-    entity.content = dto.content;
-    entity.userId = dto.userId;
-    entity.comments = [];
-
-    return entity;
   }
 }

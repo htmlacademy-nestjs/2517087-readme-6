@@ -1,18 +1,28 @@
 import { Module } from '@nestjs/common';
 
-import { BlogCategoryModule } from '@project/blog-category';
-import { BlogCommentModule } from '@project/blog-comment';
 import { PrismaClientModule } from '@project/blog-models';
-
-import { BlogPostController } from './blog-post.controller';
-import { BlogPostService } from './blog-post.service';
 import { BlogPostRepository } from './blog-post.repository';
+import { BlogPostService } from './blog-post.service';
 import { BlogPostFactory } from './blog-post.factory';
+import { BlogPostController } from './blog-post.controller';
+import { BlogCommentModule } from '@project/blog-comment';
+import { BlogPostDetailModule } from '@project/blog-post-detail';
+import { CheckAuthGuard } from '@project/guards';
+import { HttpModule } from '@nestjs/axios';
+import { HttpClient } from '@project/api-config';
 
 @Module({
-  imports: [BlogCategoryModule, BlogCommentModule, PrismaClientModule],
+  imports: [
+    HttpModule.register({
+      timeout: HttpClient.Timeout,
+      maxRedirects: HttpClient.MaxRedirects,
+    }),
+    PrismaClientModule,
+    BlogCommentModule,
+    BlogPostDetailModule
+  ],
+  providers: [BlogPostRepository, BlogPostService, BlogPostFactory, CheckAuthGuard],
   controllers: [BlogPostController],
-  providers: [BlogPostService, BlogPostRepository, BlogPostFactory],
-  exports: [BlogPostService],
+  exports: [BlogPostService]
 })
 export class BlogPostModule {}

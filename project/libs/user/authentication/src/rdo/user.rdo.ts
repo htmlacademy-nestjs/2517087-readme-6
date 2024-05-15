@@ -1,5 +1,6 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { UploadedFileRdo } from '@project/file-uploader';
 
 export class UserRdo {
   @ApiProperty({
@@ -14,25 +15,15 @@ export class UserRdo {
     example: '/images/user.png'
   })
   @Expose()
-  public avatar: string;
+  public avatarId: string;
 
-  @ApiProperty({
-    description: 'User date birth (ISO format)',
-    example: '1981-03-12'
-  })
   @Expose()
-  public dateOfBirth: string;
-
-  @ApiProperty({
-    description: 'User email',
-    example: 'user@user.local'
-  })
-  @Expose()
-  public email: string;
+  @Type(() => UploadedFileRdo)
+  public avatar: UploadedFileRdo
 
   @ApiProperty({
     description: 'User first name',
-    example: 'Alex'
+    example: 'Alexey'
   })
   @Expose()
   public firstname: string;
@@ -43,4 +34,26 @@ export class UserRdo {
   })
   @Expose()
   public lastname: string;
+
+  @ApiProperty({
+    description: 'User email',
+    example: 'user@user.local'
+  })
+  @Expose()
+  public email: string;
+
+  @ApiProperty({
+    description: 'List author id which user subscribed',
+    isArray: true,
+    example: ['660eb9f25dac3408417b2da9', '660eb9f25dac3408417b2da9', '660eb9f25dac3408417b2da9']
+  })
+  @Expose()
+  public subscribers: string[];
+
+  @ApiProperty({
+    description: 'User registration date (ISO format)',
+    example: '2024-04-04'
+  })
+  @Expose()
+  public registrationDate: string;
 }

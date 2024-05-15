@@ -20,7 +20,12 @@ export abstract class BaseMongoRepository<
       return null;
     }
 
-    const plainObject = document.toObject({ getters: true, versionKey: false, flattenObjectIds: true }) as ReturnType<T['toPOJO']>;
+    const plainObject = document.toObject({
+      getters: true,
+      versionKey: false,
+      flattenObjectIds: true
+    }) as ReturnType<T['toPOJO']>;
+
     return this.entityFactory.create(plainObject);
   }
 
@@ -41,8 +46,7 @@ export abstract class BaseMongoRepository<
       entity.id,
       entity.toPOJO(),
       { new: true, runValidators: true }
-    )
-      .exec();
+    ).exec();
 
     if (! updatedDocument) {
       throw new NotFoundException(`Entity with id ${entity.id} not found`);

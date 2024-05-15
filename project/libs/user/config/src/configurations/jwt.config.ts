@@ -1,5 +1,6 @@
-import * as Joi from 'joi';
-import { registerAs } from '@nestjs/config';
+import { plainToClass } from "class-transformer";
+import { ConfigType, registerAs } from "@nestjs/config";
+import { JWTConfiguration } from "./jwt/jwt.env";
 
 export interface JWTConfig {
   accessTokenSecret: string;
@@ -8,31 +9,19 @@ export interface JWTConfig {
   refreshTokenExpiresIn: string;
 }
 
-const validationSchema = Joi.object({
-  accessTokenSecret: Joi.string().required(),
-  accessTokenExpiresIn: Joi.string().required(),
-  refreshTokenSecret: Joi.string().required(),
-  refreshTokenExpiresIn: Joi.string().required(),
-});
-
-
-function validateConfig(config: JWTConfig): void {
-  const { error } = validationSchema.validate(config, { abortEarly: true });
-  if (error) {
-    throw new Error(`[Account JWTConfig Validation Error]: ${error.message}`);
-  }
-}
-
-function getConfig(): JWTConfig {
-  const config: JWTConfig = {
+async function getJwtConfig(): Promise<JWTConfiguration> {
+  const config = plainToClass(JWTConfiguration, {
     accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
     accessTokenExpiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
     refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
     refreshTokenExpiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN,
-  };
+  });
 
-  validateConfig(config);
+  await config.validate();
+
   return config;
 }
 
-export default registerAs('jwt', getConfig);
+export default registerAs('jwt', async (): Promise<ConfigType<typeof getJwtConfig>> => {
+  return getJwtConfig();
+});

@@ -1,7 +1,10 @@
 import { randomUUID } from 'node:crypto';
+import { NotFoundException } from "@nestjs/common";
 
 import { Entity, StorableEntity, EntityFactory } from '@project/shared/core';
 import { Repository } from './repository.interface';
+
+const NOT_FOUND_MESSAGE = 'Entity not found';
 
 export abstract class BaseMemoryRepository<T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>> implements Repository<T> {
   protected entities: Map<T['id'], ReturnType<T['toPOJO']>> = new Map();
@@ -29,7 +32,7 @@ export abstract class BaseMemoryRepository<T extends Entity & StorableEntity<Ret
 
   public async update(entity: T): Promise<void> {
     if (! this.entities.has(entity.id)) {
-      throw new Error('Entity not found');
+      throw new NotFoundException(NOT_FOUND_MESSAGE);
     }
 
     this.entities.set(entity.id, entity.toPOJO());
@@ -37,7 +40,7 @@ export abstract class BaseMemoryRepository<T extends Entity & StorableEntity<Ret
 
   public async deleteById(id: T['id']): Promise<void> {
     if (! this.entities.has(id)) {
-      throw new Error('Entity not found');
+      throw new NotFoundException(NOT_FOUND_MESSAGE);
     }
 
     this.entities.delete(id);
