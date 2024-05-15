@@ -18,7 +18,7 @@ export function getRabbitMQOptions(optionSpace) {
         user: config.get<string>(`${optionSpace}.user`),
         port: config.get<string>(`${optionSpace}.port`),
       }),
-      connectionInitOptions: { wait: false },
+      connectionInitOptions: { wait: true },
       enableControllerDiscovery: true,
     }),
     inject: [ConfigService]
