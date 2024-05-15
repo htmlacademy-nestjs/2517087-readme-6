@@ -16,9 +16,9 @@ export class NewsletterController {
   ) { }
 
   @RabbitSubscribe({
-    exchange: 'typoteka.notify.api',
+    exchange: 'typoteka.notify',
     routingKey: RabbitRouting.NewPostsAppeared,
-    queue: 'typoteka.notify.api',
+    queue: 'typoteka.notify.income',
   })
   public async notifyAboutNewPosts(posts: CommonPostType[]) {
     this.newsletterService.sendNotifyNewSubscriber(posts);

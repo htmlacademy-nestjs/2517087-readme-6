@@ -1,20 +1,16 @@
 import { Controller, UseFilters, Get, Param, Post, Body, Delete, Patch, HttpCode, HttpStatus, Query, UseGuards, Req, UsePipes, UseInterceptors } from '@nestjs/common';
 import { fillDto } from '@project/shared/helpers';
 import { CheckAuthGuard } from '@project/guards';
-import {
-  BlogPostService,
-  MAX_SEARCH_COUNT,
-  ParamDescription,
-  PostResponseMessage,
-  QueryDescription
-} from '@project/blog-post';
-import { CreatePostDto, UpdatePostDto } from '@project/blog-post';
+import { BlogPostService } from './blog-post.service';
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogPostRdo } from './rdo/blog-post.rdo';
 import { BlogPostQuery } from './blog-post.query';
 import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { RequestWithUser } from '@project/authentication';
 import { ApiBody, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { PostValidationPipe } from '@project/blog-post';
+import { MAX_SEARCH_COUNT, ParamDescription, PostResponseMessage, QueryDescription } from './blog-post.constants';
+import { PostValidationPipe } from './pipes/post-validation.pipe';
 import { AxiosExceptionFilter } from '@project/filters';
 import { InjectUserIdInterceptor } from '@project/interceptors';
 
