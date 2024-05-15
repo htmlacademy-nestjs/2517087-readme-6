@@ -2,7 +2,7 @@ import { PostDetailItem } from "@project/shared/core";
 import { BasePostgresRepository } from '@project/data-access';
 import { PrismaClientService } from "@project/blog-models";
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { BlogPostDetailFactory } from "@project/blog-post-detail";
+import { BlogPostDetailFactory } from "./blog-post-detail.factory";
 import { BlogPostDetailEntity } from "./blog-post-detail.entity";
 
 @Injectable()

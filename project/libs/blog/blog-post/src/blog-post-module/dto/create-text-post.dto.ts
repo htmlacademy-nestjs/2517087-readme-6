@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { CreatePostDto } from './create-post.dto';
-import { PostAnnounceLength, PostTextLength } from '@project/blog-post';
+import { PostAnnounceLength, PostTextLength } from '../blog-post.constants';
 
 export class CreateTextPostDto extends CreatePostDto {
   @ApiProperty({

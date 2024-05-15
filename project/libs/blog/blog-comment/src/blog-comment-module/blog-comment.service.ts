@@ -1,8 +1,7 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-
-import { BlogCommentRepository } from "@project/blog-comment";
-import { BlogCommentFactory } from "@project/blog-comment";
-import { CreateCommentDto } from "@project/blog-comment";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { CreateCommentDto } from "./dto/create-comment.dto";
+import { BlogCommentFactory } from "./blog-comment.factory";
+import { BlogCommentRepository } from "./blog-comment.repository";
 import { BlogCommentQuery } from "./blog-comment.query";
 import { BlogCommentResponseMessage } from "./blog-comment.constant";
 
@@ -11,7 +10,7 @@ export class BlogCommentService {
   constructor(
     private readonly blogCommentFactory: BlogCommentFactory,
     private readonly blogCommentRepository: BlogCommentRepository,
-  ) {}
+  ) { }
 
   getById(commentId: string) {
     return this.blogCommentRepository.findById(commentId);
