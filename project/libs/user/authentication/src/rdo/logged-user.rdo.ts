@@ -1,7 +1,8 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import {TokenRdo} from "./token.rdo";
 
-export class LoggedUserRdo {
+export class LoggedUserRdo extends TokenRdo {
   @ApiProperty({
     description: 'The uniq user ID',
     example: '134ce8babd-cc30-4805-9b12-d9420398e7c5',
@@ -15,17 +16,4 @@ export class LoggedUserRdo {
   })
   @Expose()
   public email: string;
-
-  @ApiProperty({
-    description: 'Access token',
-    example: 'user@user.local'
-  })
-  @Expose()
-  public accessToken: string;
-
-  @ApiProperty({
-    description: 'Refresh token',
-  })
-  @Expose()
-  public refreshToken: string;
 }

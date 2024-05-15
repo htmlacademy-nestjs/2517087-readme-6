@@ -1,17 +1,18 @@
-import {compare, genSalt, hash} from "bcrypt";
+import { compare, genSalt, hash } from 'bcrypt';
 
-import { Entity } from '@project/shared/core';
-import { StorableEntity, AuthUser, UserRole} from '@project/shared/core';
+import { AuthUser, Entity, StorableEntity } from '@project/shared/core';
 
-import {SALT_ROUNDS} from "./user-info.constant";
+import { SALT_ROUNDS } from './user-info.constant';
 
 export class UserInfoEntity extends Entity implements StorableEntity<AuthUser> {
-  public email: string;
-  public firstname: string;
-  public lastname: string;
-  public dateOfBirth: Date;
-  public role: UserRole;
-  public passwordHash: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  avatarId?: string;
+  avatar?: string;
+  registrationDate: Date;
+  passwordHash: string;
+  subscribers: string[];
 
   constructor(user?: AuthUser) {
     super();
@@ -25,11 +26,12 @@ export class UserInfoEntity extends Entity implements StorableEntity<AuthUser> {
 
     this.id = user.id ?? '';
     this.email = user.email;
-    this.dateOfBirth = user.dateOfBirth;
     this.firstname = user.firstname;
     this.lastname = user.lastname;
+    this.avatarId = user.avatarId;
+    this.registrationDate = user.registrationDate || new Date();
     this.passwordHash = user.passwordHash;
-    this.role = user.role;
+    this.subscribers = user.subscribers ?? [];
   }
 
   public toPOJO(): AuthUser {
@@ -38,15 +40,33 @@ export class UserInfoEntity extends Entity implements StorableEntity<AuthUser> {
       email: this.email,
       firstname: this.firstname,
       lastname: this.lastname,
-      dateOfBirth: this.dateOfBirth,
-      role: this.role,
-      passwordHash: this.passwordHash,
+      avatarId: this.avatarId,
+      subscribers: this.subscribers,
+      registrationDate: this.registrationDate,
+      passwordHash: this.passwordHash
     }
   }
 
   public async setPassword(password: string): Promise<UserInfoEntity> {
     const salt = await genSalt(SALT_ROUNDS);
     this.passwordHash = await hash(password, salt);
+
+    return this;
+  }
+
+  public setAvatar(avatar: string) {
+    this.avatar = avatar;
+
+    return this;
+  }
+
+  public updateSubscribers(authorId: string) {
+    if (this.subscribers.includes(authorId)) {
+      this.subscribers = this.subscribers.filter(subscriberId => subscriberId !== authorId);
+    } else {
+      this.subscribers.push(authorId);
+    }
+
     return this;
   }
 

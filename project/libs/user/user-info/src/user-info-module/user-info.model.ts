@@ -1,48 +1,29 @@
-import { Document } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { AuthUser, UserRole } from '@project/shared/core';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { AuthUser } from "@project/shared/core";
+import { Document } from "mongoose";
 
-@Schema({
-  collection: 'users',
-  timestamps: true,
-})
+@Schema({ collection: 'users', timestamps: true })
 export class UserInfoModel extends Document implements AuthUser {
+  @Prop({ required: true })
+  firstname: string;
+
+  @Prop({ required: true })
+  lastname: string;
+
+  @Prop({ required: true, unique: true })
+  email: string;
+
   @Prop()
-  public avatar: string;
+  avatarId?: string;
 
-  @Prop({
-    required: true,
-  })
-  public dateOfBirth: Date;
+  @Prop()
+  subscribers: string[];
 
-  @Prop({
-    required: true,
-    unique: true,
-  })
-  public email: string;
+  @Prop()
+  registrationDate: Date;
 
-  @Prop({
-    required: true,
-  })
-  public firstname: string;
-
-  @Prop({
-    required: true,
-  })
-  public lastname: string;
-
-  @Prop({
-    required: true,
-  })
-  public passwordHash: string;
-
-  @Prop({
-    required: true,
-    type: String,
-    enum: UserRole,
-    default: UserRole.User,
-  })
-  public role: UserRole;
+  @Prop({ required: true })
+  passwordHash: string;
 }
 
 export const UserInfoSchema = SchemaFactory.createForClass(UserInfoModel);

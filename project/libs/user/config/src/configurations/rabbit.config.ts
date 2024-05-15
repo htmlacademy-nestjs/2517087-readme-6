@@ -1,7 +1,8 @@
-import { registerAs } from '@nestjs/config';
-import * as Joi from 'joi';
-
-const DEFAULT_RABBIT_PORT = 5672;
+import { ConfigType, registerAs } from '@nestjs/config';
+import { plainToClass } from 'class-transformer';
+import { RabbitConfiguration } from './rabbit/rabbit.env';
+import { DEFAULT_RABBIT_PORT } from './rabbit/rabbit.const';
+import { RADIX_DECIMAIL } from '@project/shared/core';
 
 export interface RabbitConfig {
   host: string;
@@ -12,34 +13,21 @@ export interface RabbitConfig {
   port: number;
 }
 
-const validationSchema = Joi.object({
-  host: Joi.string().valid().hostname().required(),
-  password: Joi.string().required(),
-  port: Joi.number().port().default(DEFAULT_RABBIT_PORT),
-  user: Joi.string().required(),
-  queue: Joi.string().required(),
-  exchange: Joi.string().required(),
-});
-
-function validateConfig(config: RabbitConfig): void {
-  const { error } = validationSchema.validate(config, { abortEarly: true });
-  if (error) {
-    throw new Error(`[Rabbit Config Validation Error]: ${error.message}`);
-  }
-}
-
-function getConfig(): RabbitConfig {
-  const config: RabbitConfig = {
+async function getConfig(): Promise<RabbitConfiguration> {
+  const config = plainToClass(RabbitConfiguration, {
     host: process.env.RABBIT_HOST,
     password: process.env.RABBIT_PASSWORD,
-    port: parseInt(process.env.RABBIT_PORT ?? DEFAULT_RABBIT_PORT.toString(), 10),
+    port: parseInt(process.env.RABBIT_PORT ?? DEFAULT_RABBIT_PORT.toString(), RADIX_DECIMAIL),
     user: process.env.RABBIT_USER,
     queue: process.env.RABBIT_QUEUE,
     exchange: process.env.RABBIT_EXCHANGE,
-  };
+  });
 
-  validateConfig(config);
+  await config.validate();
+
   return config;
 }
 
-export default registerAs('rabbit', getConfig);
+export default registerAs('rabbit', async (): Promise<ConfigType<typeof getConfig>> => {
+  return getConfig();
+});

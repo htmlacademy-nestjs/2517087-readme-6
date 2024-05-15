@@ -22,4 +22,14 @@ export class UserInfoRepository extends BaseMongoRepository<UserInfoEntity, User
     const document = await this.model.findOne({ email }).exec();
     return this.createEntityFromDocument(document);
   }
+
+  public async findPublishersList(subscriberId: string): Promise<UserInfoEntity[]> {
+    const documents = await this.model.find({ subscribers: subscriberId }).exec();
+    return documents.map(document => this.createEntityFromDocument(document));
+  }
+
+  public async findListById(listId: string[]): Promise<UserInfoEntity[]> {
+    const documents = await this.model.find({ _id: { $in: listId } }).exec();
+    return documents.map(document => this.createEntityFromDocument(document));
+  }
 }

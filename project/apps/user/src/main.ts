@@ -1,9 +1,10 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
-import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {ConfigService} from "@nestjs/config";
+import { ConfigService } from '@nestjs/config';
+
+const DEFAULT_PORT = 3000;
 
 const GLOBAL_PREFIX = 'api';
 
@@ -17,15 +18,12 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('spec', app, document);
 
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-  }));
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const configService = app.get(ConfigService);
-  const port = configService.get('application.port');
-
+  const port = configService.get('user-app.port') || DEFAULT_PORT;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`);
 }
